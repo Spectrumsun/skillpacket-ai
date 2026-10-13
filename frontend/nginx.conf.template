@@ -1,0 +1,37 @@
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+    client_max_body_size 850000;
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+
+    location = /healthz {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    location /api/ {
+        proxy_pass http://backend:3001/;
+        proxy_set_header Authorization "Bearer ${API_TOKEN}";
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location = /sw.js {
+        add_header Cache-Control "no-cache";
+    }
+
+    location /assets/ {
+        try_files $uri =404;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+        add_header Cache-Control "no-cache";
+    }
+}

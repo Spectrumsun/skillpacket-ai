@@ -13,6 +13,7 @@
 | Presentation preferences | Mix/Dark/Light in localStorage | `frontend/src/themes.ts`, `appearance.tsx`, initial HTML script |
 | Offline shell | Versioned service worker and build-generated precache list | `frontend/public/sw.js`, `vite.config.ts` |
 | Local launcher | Starts both child processes | `start.mjs` |
+| Containers | Health-ordered Node backend + static Nginx frontend, persistent SQLite volume | `compose.yaml`, component Dockerfiles, `frontend/nginx.conf.template` |
 
 ```mermaid
 flowchart LR

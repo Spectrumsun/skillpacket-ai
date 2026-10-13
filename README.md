@@ -6,6 +6,25 @@ An offline-first learning app designed to turn educational resources into small 
 
 ## Start the app
 
+### Docker Compose
+
+Requires Docker with Compose. From this project folder:
+
+```sh
+docker compose up --build -d --wait
+```
+
+Open [SkillPacket](http://localhost:8080/) or the [learning workspace](http://localhost:8080/learn). Compose starts the backend first, waits for its health check, then starts the Nginx frontend. The frontend proxies `/api` to the internal backend; only the web port is published, on loopback. SQLite lives in the persistent `skillpacket-data` volume, separate from the existing local database.
+
+```sh
+docker compose logs -f
+docker compose down
+```
+
+Stopping with `down` preserves the database. Avoid `down -v` unless you intend to erase Docker data. Optional settings are in [.env.example](.env.example); copy it to `.env` to change the web port or shared service token (at least 24 characters). The default token supports local development and stays in the server-side proxy, outside the browser bundle. See [Docker operations](docs/DEVELOPMENT.md#docker-compose) for details.
+
+### Run with Node.js
+
 Requires **Node.js 24+** and npm. From this project folder:
 
 ```sh
@@ -36,10 +55,28 @@ SkillPacket/
 ├── Agent.md              Pointer to the canonical AGENTS.md
 ├── adgent.md             Pointer retaining the earlier requested spelling
 ├── .gitignore            Generated files, local data and secrets excluded from Git
+├── .dockerignore         Dependencies, local data and secrets excluded from images
+├── compose.yaml          Backend/frontend containers and persistent database volume
 └── start.mjs             Combined backend/frontend launcher
 ```
 
 Keep `backend` and `frontend` as siblings. The frontend imports the shared packet schema and career catalog from the backend source tree.
+
+## Screenshots
+
+The landing page supports three themes. These screenshots are stored in the repository under `docs/evidence`.
+
+**Mix**
+
+![SkillPacket landing page in Mix theme](docs/evidence/landing-mix.jpg)
+
+**Dark**
+
+![SkillPacket landing page in Dark theme](docs/evidence/landing-dark.jpg)
+
+**Light**
+
+![SkillPacket landing page in Light theme](docs/evidence/landing-light.jpg)
 
 ## What is implemented
 

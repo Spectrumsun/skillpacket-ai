@@ -11,6 +11,7 @@ Read `README.md`, `docs/STATUS.md`, and the relevant component README. Use `docs
 - Frontend uses React, TypeScript and Vite. Keep both component folders together: the frontend imports `../../backend/src` from its source files.
 - Use `node start.mjs` for production preview or `node start.mjs --dev` for frontend hot reload. Combined backend port is 3101; web preview is 4173; development frontend is 5173.
 - Backend alone defaults to 3001. Configure the frontend proxy accordingly; do not accidentally connect to another service using that port.
+- Docker: `docker compose up --build -d --wait` starts the healthy backend before the Nginx frontend at localhost:8080. Build contexts must remain the project root for sibling imports. Keep the backend internal, token server-side, and SQLite in its persistent named volume. Never use `down -v` to troubleshoot existing data.
 - Put intermediate work outside the deliverable code when a workspace scratch directory is available. Do not commit `node_modules`, build output, SQLite files, secrets, or local logs.
 
 ## Implementation contracts

@@ -6,6 +6,8 @@ React + TypeScript + Vite frontend for the SkillPacket backend in the sibling `.
 
 ## Run the whole app
 
+For containers, run `docker compose up --build -d --wait` from the project root and open `http://localhost:8080/`. Nginx serves the compiled PWA and proxies `/api/` to the healthy backend with a server-side token. Docker uses a separate browser origin and backend database from the local launcher. See [Docker operations](../docs/DEVELOPMENT.md#docker-compose).
+
 Install dependencies in both `backend` and `frontend` with `npm ci`, then run the launcher from the SkillPacket project root:
 
 ```sh
@@ -87,6 +89,6 @@ Browser checks verified landing-page navigation, career-card preselection, three
 
 ## Deployment boundary
 
-This is a local app build. A static frontend deployment needs a same-origin `/api` reverse proxy to the backend plus HTTPS. Vite's development/preview proxy is not included in `dist`. Do not embed the shared backend API token in browser JavaScript. PDF/OCR, YouTube retrieval, live AI generation, server progress sync, and learner authentication remain backend follow-up work.
+This is a local app build. Docker includes a same-origin `/api` reverse proxy; public hosting still needs HTTPS and learner authorization. Vite's development/preview proxy is not included in `dist`. Do not embed the shared backend API token in browser JavaScript. PDF/OCR, YouTube retrieval, live AI generation, server progress sync, and learner authentication remain backend follow-up work.
 
 The initial app shell is larger than a learning packet. The <100KB budget applies to each JSON packet, not to installation assets or source uploads. System fonts and local illustrations keep the UI free of remote font/image downloads.

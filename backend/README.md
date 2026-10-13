@@ -6,6 +6,8 @@ Runnable TypeScript backend foundation for the first SkillPacket learning flow. 
 
 ## Run
 
+For containers, run `docker compose up --build -d --wait` from the project root. Compose runs this API internally on port 3001, persists SQLite in a named volume, and waits for backend health before starting the frontend on `http://localhost:8080/`. See [Docker operations](../docs/DEVELOPMENT.md#docker-compose). The Docker database is separate from the local database.
+
 From this directory:
 
 ```sh

@@ -19,6 +19,8 @@ Updated 2026-10-13. This is the current project inventory; [earlier phase-one au
 - Conditional local-device English narration and install guidance.
 - Mix (original), Dark and Light themes; header and Settings controls; device preference persistence.
 - Combined launcher and project/component documentation.
+- Dockerfiles and Compose orchestration: backend health gates frontend startup, Nginx same-origin API proxy, persistent SQLite volume, loopback web port 8080.
+- README embeds repository screenshots of the Mix, Dark and Light landing-page themes.
 
 ## Partial or not yet verified
 
@@ -42,6 +44,7 @@ PDF text extraction; separate scanned-document OCR; source-grounded AI lessons; 
 
 - Latest feature suite: **12 backend tests + 10 frontend tests = 22 passing tests**.
 - Backend TypeScript check and frontend TypeScript/production build passed.
+- Docker verification: both images built, backend health preceded frontend startup, and both containers reported healthy. The learner/roadmap/source/job/download demo passed through Nginx on port 8080, producing a 1,994-byte packet. That packet survived `docker compose down` followed by `up`. `/`, `/learn`, API catalog and PWA assets returned HTTP 200; the service token was absent from served JS/CSS and the direct API rejected unauthenticated requests. These checks do not establish cold offline reopening.
 - API generation demo produced a 1,994-byte preview packet.
 - Browser checks verified career setup, source submission, generation, downloads, quiz feedback, and progress after reload.
 - Theme checks confirmed Mix, Light and Dark render, and Dark persists after reload. Landing career cards open the matching preselected setup; browser Back returns to the landing page.

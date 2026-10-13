@@ -14,7 +14,7 @@ Development landing page: `http://localhost:5173/`; learning workspace: `/learn`
 
 ## Configuration
 
-Export variables in your shell. Example files document the settings; copying them to `.env` is not a documented substitute for exporting the values read through `process.env` in the current configuration.
+For the Node launcher, export variables in your shell; component `.env` files are not automatically loaded. Docker Compose automatically reads the project-root `.env` for its own settings.
 
 | Variable | Scope | Current default / behavior |
 | --- | --- | --- |
@@ -28,6 +28,26 @@ Export variables in your shell. Example files document the settings; copying the
 | `API_URL` | Backend demo script | `http://127.0.0.1:3001` |
 
 Do not commit secrets. There are no implemented AI-provider environment variables yet.
+
+## Docker Compose
+
+From the project root, run `docker compose up --build -d --wait`. Open `http://localhost:8080/`; `/learn` opens the workspace. Both images build using the project root as context so sibling schema imports resolve. The backend runs Node 24 as the unprivileged `node` user. The frontend uses a multi-stage build and serves static assets through Nginx, including SPA routes and a same-origin `/api/` proxy.
+
+The backend must pass its health check before the frontend starts. `docker compose ps` reports health; `docker compose logs -f backend frontend` shows logs. `docker compose restart backend` also restarts the dependent frontend so Nginx resolves the backend again. Health checks report status; they do not automatically restart unhealthy containers.
+
+Optional configuration: copy root `.env.example` to `.env`, then set `SKILLPACKET_WEB_PORT` (default 8080) and `SKILLPACKET_API_TOKEN` (minimum 24 characters). Run `docker compose up -d` after changing settings. Both containers receive the same token; Nginx injects it into upstream requests. It is not part of the frontend build. The supplied default token and loopback port binding are intended for local development. Learner authorization and HTTPS remain deployment work.
+
+`docker compose down` stops/removes containers while preserving the named SQLite volume. `docker compose up -d` reuses it. `docker compose down -v` deletes that data. Docker starts with its own database and does not import or modify `backend/data/skillpacket.sqlite`. Browser libraries also use a separate origin on port 8080; export/import packets to transfer them from the local preview.
+
+For a stopped-database backup:
+
+```sh
+docker compose stop backend
+docker compose cp backend:/app/data ./skillpacket-docker-backup
+docker compose start backend
+```
+
+Keep backups outside version control. Do not scale the backend beyond one replica. Rebuild with `docker compose up --build -d --wait` after source changes. `.dockerignore` excludes dependencies, generated assets, databases, Git history and `.env` files from build contexts.
 
 ## Individual component commands
 
@@ -66,4 +86,4 @@ Browser packets and progress are separate from server records. Export packet JSO
 
 ## Deployment boundary
 
-Vite preview is for local verification. Production deployment needs HTTPS, a same-origin API proxy, user authorization, quotas, appropriate persistence/worker deployment, and operational monitoring. These are pending features, not properties of the existing launcher.
+Vite preview is for local verification. Docker supplies static hosting, a same-origin API proxy and persistent single-process SQLite. Public deployment still needs HTTPS, learner authorization, quotas and operational monitoring; Compose remains configured for local use.

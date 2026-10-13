@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    init: true
+    restart: unless-stopped
+    environment:
+      API_TOKEN: ${SKILLPACKET_API_TOKEN:-skillpacket-compose-local-development-token}
+    volumes:
+      - skillpacket-data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/health').then(r => { if (!r.ok) process.exit(1); }).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      start_period: 10s
+      retries: 5
+    stop_grace_period: 15s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+        restart: true
+    environment:
+      API_TOKEN: ${SKILLPACKET_API_TOKEN:-skillpacket-compose-local-development-token}
+    ports:
+      - "127.0.0.1:${SKILLPACKET_WEB_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  skillpacket-data:
