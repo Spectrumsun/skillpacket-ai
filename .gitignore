@@ -1,0 +1,22 @@
+.DS_Store
+**/node_modules/
+**/dist/
+**/coverage/
+**/data/
+**/.env
+**/.env.*
+!**/.env.example
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log
+
+# Local tooling and generated artifacts
+**/.cache/
+**/.vite/
+**/.npm/
+**/build/
+**/*.tsbuildinfo
+.envrc
+*.pem
+*.key

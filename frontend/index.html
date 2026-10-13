@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17241e" />
+    <script>
+      try {
+        const theme = localStorage.getItem('skillpacket-theme');
+        document.documentElement.dataset.theme = ['mix', 'dark', 'light'].includes(theme) ? theme : 'mix';
+      } catch { document.documentElement.dataset.theme = 'mix'; }
+    </script>
+    <meta name="description" content="Small lessons. Real possibilities. Build your skill pathway and take learning offline with SkillPacket." />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>SkillPacket · Your learning, within reach</title>
+  </head>
+  <body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body>
+</html>
