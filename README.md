@@ -62,6 +62,10 @@ SkillPacket/
 
 Keep `backend` and `frontend` as siblings. The frontend imports the shared packet schema and career catalog from the backend source tree.
 
+## Product walkthrough
+
+[Watch the 87-second captioned product demo](docs/demo/skillpacket-walkthrough.mp4), assembled from native-browser captures. It shows the three themes, career setup, a six-milestone roadmap, text-source submission, packet creation, reading, quiz feedback and the device library. See [demo notes and chapters](docs/demo/README.md) for scope.
+
 ## Screenshots
 
 The landing page supports three themes. These screenshots are stored in the repository under `docs/evidence`.

@@ -21,6 +21,7 @@ Updated 2026-10-13. This is the current project inventory; [earlier phase-one au
 - Combined launcher and project/component documentation.
 - Dockerfiles and Compose orchestration: backend health gates frontend startup, Nginx same-origin API proxy, persistent SQLite volume, loopback web port 8080.
 - README embeds repository screenshots of the Mix, Dark and Light landing-page themes.
+- Captioned 87-second product walkthrough assembled from native in-app-browser captures, covering themes, pathway setup, source-preview generation, reading, quiz feedback and local progress/library. Linked from the README; this video does not demonstrate a disconnected browser or cold offline reopening.
 
 ## Partial or not yet verified
 
